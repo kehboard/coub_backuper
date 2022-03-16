@@ -19,9 +19,10 @@ for (i=2;i<=total_pages["total_pages"];i++){
    console.log("downloading page:", i)
    coubs = ajax_get("https://coub.com/api/v2/timeline/likes?all=true&order_by=date&page="+i)
    coubjsons = coubjsons.concat(coubs["coubs"])
-   console.log(coubjsons)
    sleep(1000);
 }
+console("script done! please copy object below and save it to file.json! Right click on object -> Copy object")
+console.log(coubjsons)
 saveMetadataToDownloads("coub_metadata.json", JSON.stringify(coubjsons))
 }
 
@@ -55,3 +56,5 @@ function ajax_get(url) {
             }
     }
 }
+
+getAllLikesFromCoubCom()
