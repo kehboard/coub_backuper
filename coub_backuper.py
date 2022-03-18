@@ -4,20 +4,11 @@ from lxml import etree
 import os
 import time
 import sys
+import config
 
-# немного конфигов
-user_agent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1"
-
-# куда скачивать коубы
-download_folder = os.path.join(os.path.dirname(os.path.realpath(__file__)), "downloads")
-
-# настройки прокси
-# если не надо то закоментируейте эту строчку
-# proxies = {"http": "socks5h://127.0.0.1:1080", "https": "socks5h://127.0.0.1:1080"}
-
-
-# и раскоментируйте эту
-proxies = None
+user_agent = config.user_agent
+download_folder = config.download_folder
+proxies = config.proxies
 
 
 def get_json_by_url_parsed(url):
@@ -33,12 +24,18 @@ def download_coub_from_json(json_coub, download_folder=download_folder):
     folder_save_to = os.path.join(download_folder, "[{0}]".format(json_coub["permalink"]))
     if not os.path.isdir(folder_save_to):
         os.makedirs(folder_save_to)
+
+    ls = os.listdir(folder_save_to)
+    video = [s for s in ls if ".mp4" in s]
+    audio = [s for s in ls if ".mp3" in s]
+    first_frame = [s for s in ls if ".jpg" in s]
+
     print("[INFO] Save coub.json with metadata of this coub")
     open(os.path.join(folder_save_to, "coub.json"), "wb").write(
         json.dumps(json_coub, ensure_ascii=False).encode("utf-8"))
     file_urls = json_coub["file_versions"]["html5"]
     print("[INFO] Starting download this coub")
-    if "video" in file_urls:
+    if ("video" in file_urls) and len(video) == 0:
         print("[INFO] Starting download video")
         if "higher" in file_urls["video"]:
             download_file(file_urls["video"]["higher"]["url"],
@@ -55,7 +52,23 @@ def download_coub_from_json(json_coub, download_folder=download_folder):
         else:
             print("[WARN] No video found! I just save json with properties of this coub")
 
-    if "audio" in file_urls:
+    if ("first_frame_versions" in json_coub) and len(first_frame) == 0:
+        print("[INFO] Starting download first frame of this coub")
+        template = json_coub["first_frame_versions"]["template"]
+        if "big" in json_coub["first_frame_versions"]["versions"]:
+            download_file(template.replace("%{version}", "big"),
+                          os.path.join(folder_save_to, template.replace("%{version}", "big").split('/')[-1]))
+            print("[INFO] First frame downloaded successful")
+        elif "med" in json_coub["first_frame_versions"]["versions"]:
+            download_file(template.replace("%{version}", "med"),
+                          os.path.join(folder_save_to, template.replace("%{version}", "med").split('/')[-1]))
+            print("[INFO] First frame downloaded successful")
+        elif "small" in json_coub["first_frame_versions"]["versions"]:
+            download_file(template.replace("%{version}", "small"),
+                          os.path.join(folder_save_to, template.replace("%{version}", "small").split('/')[-1]))
+            print("[INFO] First frame downloaded successful")
+
+    if ("audio" in file_urls) and len(audio) == 0:
         print("[INFO] Starting download audio")
         if "high" in file_urls["audio"]:
             download_file(file_urls["audio"]["high"]["url"],
@@ -94,15 +107,9 @@ def download_coub_from_coub_property_list(path_to_coub_json):
         time.sleep(1)
 
 
-download_coub_from_coub_property_list("all_likes.json")
-
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: coub_backuper.py <path_to_json_with_coubs>")
         exit()
     property_list_file_path = sys.argv[1]
     download_coub_from_coub_property_list(property_list_file_path)
-# download_coub_from_json(get_json_by_url_parsed("https://coub.com/view/2i18vi"))
-# open("example_coub.json", "wb").write(json.dumps(get_json_by_url_parsed("https://coub.com/view/2i18vi"), ensure_ascii=False, indent=4).encode("utf-8"))
-# open("example_another_coub.json", "wb").write(json.dumps(get_json_by_url_parsed("https://coub.com/view/301e5w"), ensure_ascii=False, indent=4).encode("utf-8"))
-# open("example_another_coub_without_sound.json", "wb").write(json.dumps(get_json_by_url_parsed("https://coub.com/view/30vh80"), ensure_ascii=False, indent=4).encode("utf-8"))

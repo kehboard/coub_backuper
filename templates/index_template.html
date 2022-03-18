@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <meta charset="utf-8">
+    <title>Album example · Bootstrap v5.1</title>
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a href="#" class="navbar-brand d-flex align-items-center">
+                <svg width="38" height="38" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M38 19c0 10.493-8.507 19-19 19-.503 0-1.003-.02-1.496-.058l1.869-5.135c.308-.848 1.336-1.983 2.245-2.986l.007-.007c.52-.573.97-1.07 1.142-1.361a1635.64 1635.64 0 013.329-5.605l.047-.08a74.289 74.289 0 001.864-2.846l2.803-4.553c.513-.833.552-1.877.087-2.328a.803.803 0 00-.285-.178c-.514-.186-1.196.117-1.7.755l-2.816 3.929c-.326.413-.69.753-1.043 1.081-.294.274-.597.558-.868.873l-.288.337a.197.197 0 01-.137.068.363.363 0 01-.15-.02c-.1-.036-.262-.15-.218-.508l.001-.004c.024-.107.48-2.122-.806-2.665l-.057-.022c-.707-.258-1.27.184-1.895.928-.094.112-.286.122-.383.087a.37.37 0 01-.232-.447c.223-.997-.188-1.93-.978-2.217l-.06-.02c-.688-.221-1.517.061-2.014.688a.2.2 0 01-.065.054c-.099.094-.268.225-.453.158-.197-.072-.244-.312-.262-.487l-.022-.217c-.021-.215-.05-.463-.08-.729l-.001-.008c-.1-.869-.222-1.947-.202-2.664l.303-5.112c.021-.747-.322-1.383-.854-1.577a.995.995 0 00-.47-.051c-.752.096-1.398.949-1.47 1.94l-.559 5.17c-.038.523-.026 1.254-.014 1.96v.001c.009.524.017 1.02.005 1.42l-.049 1.648c-.017.555-.194.953-.528 1.183-.183.13-.801.573-1.47 1.197-.063.059-.127.116-.19.171l-.03.027c-.494.437-.92.815-.96 2.069-.022.589.005 1.187.09 2.067.089.923.362 1.502.651 2.115.047.1.099.204.154.314.425.857 1.006 2.028.523 3.356l-1.989 5.464C3.61 31.828 0 25.835 0 19 0 8.507 8.507 0 19 0s19 8.507 19 19z"
+                          fill="#fff"></path>
+                </svg>
+                <strong>Coub viewer</strong>
+            </a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                $coub_cards
+            </div>
+        </div>
+    </div>
+    <div class="album pb-5 bg-light" style="padding-top: 0; padding-bottom: 0">
+        <div class="container">
+            <nav aria-label="Page navigation example" class="nav justify-content-center">
+                <ul class="pagination">
+                    <li class="page-item $status_back"><a class="page-link" href="/?page=$back_page"><- Туда</a></li>
+                    <li class="page-item"><a class="page-link" href="/?page=$current_page">$current_page</a></li>
+                    <li class="page-item $status_forward"><a class="page-link" href="/?page=$forward_page">Сюда -></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</main>
+
+<footer class="text-muted py-5">
+    <div class="container">
+        <p class="float-end mb-1">
+            <a href="#">Наверх</a>
+        </p>
+        <p class="mb-1">Сделано с ❤, болью и python3 © <a href="https://github.com/kehboard/coub_backuper"
+                                                          target="_blank">kehboard</a></p>
+        <p>Логотип, имя и плеер пренадлежит <a href="https://coub.com" target="_blank">coub.com</a></p>
+        <p class="mb-1"></p>
+    </div>
+</footer>
+
+
+<div class="modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true" style="background-color: rgba(0,0,0,100);">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen" role="document">
+        <div class="modal-content" style="background-color: rgba(0,0,0,0);">
+            <div class="modal-header" style="border: none;">
+                <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+                <button type="button" class="btn-close-white border-0" style="background-color: rgba(0,0,0,0)"
+                        data-dismiss="modal" aria-label="Close" onclick="closeViewer()">
+                    <span aria-hidden="true" style="font-size: 22px">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="coubViewer"></div>
+        </div>
+    </div>
+</div>
+
+
+<script src="../assets/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/jquery-3.6.0.min.js"></script>
+<script src="../assets/index.js"></script>
+
+
+</body>
+</html>

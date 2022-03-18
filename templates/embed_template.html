@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+<title>$coub_name</title>
+<link rel="stylesheet" media="screen, projection" href="/assets/embed-37836f36cd828ec009515597aa59bd130378635b1b6a6511e618b1c7329e1d8b.css" />
+<meta charset="utf-8"/>
+</head>
+<body class='coub-embed'>
+<noindex>
+
+
+<img class='coub__embed__preview' height='360' src='$coub_image' width='640'>
+<div class='coub__embed'>
+<div class='coub__viewer'>
+<script id='embed-data-json' type='text/json'>
+$coub_meta
+</script>
+</div>
+</div>
+<script>
+  (function() {
+    var resizeImg;
+  
+    resizeImg = function() {
+      var img, imgHeight, imgProp, imgWidth, rate, viewportProp;
+      img = document.getElementsByClassName('coub__embed__preview')[0];
+      viewportProp = window.innerWidth / window.innerHeight;
+      imgWidth = parseInt(img.getAttribute('width'));
+      imgHeight = parseInt(img.getAttribute('height'));
+      imgProp = imgWidth / imgHeight;
+      rate = viewportProp < imgProp ? window.innerWidth / imgWidth : window.innerHeight / imgHeight;
+      img.style.width = Math.round(imgWidth * rate) + 'px';
+      return img.style.height = Math.round(imgHeight * rate) + 'px';
+    };
+  
+    window.onresize = resizeImg;
+  
+    resizeImg();
+  
+    document.addEventListener("DOMContentLoaded", function() {
+      return Html5Player.sendAnalytics("page_load");
+    });
+  
+  }).call(this);
+</script>
+
+</noindex>
+<script src="/assets/embed-a9882ef25ea4c2e7be6dfff89270b59028e85df37a1445484ea2a7529dd930b9.js" crossorigin="anonymous"></script>
+</body>

@@ -21,7 +21,7 @@ for (i=2;i<=total_pages["total_pages"];i++){
    coubjsons = coubjsons.concat(coubs["coubs"])
    sleep(1000);
 }
-console("script done! please copy object below and save it to file.json! Right click on object -> Copy object")
+console.log("script done! please copy object below and save it to file.json! Right click on object -> Copy object")
 console.log(coubjsons)
 saveMetadataToDownloads("coub_metadata.json", JSON.stringify(coubjsons))
 }
