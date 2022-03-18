@@ -18,5 +18,5 @@ download_folder = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dow
 
 # http порт который будет слушать просмотрщик коубов. По умолчанию просмотрщик слушает на
 # всех интерфейсах используя порт 2682
-listen_port = 2682
+listen_port = 8888
 listen_host = "0.0.0.0"
