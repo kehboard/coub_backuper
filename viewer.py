@@ -22,6 +22,7 @@ class CoubViewer(object):
     @cherrypy.expose
     def index(self, page=1, limit=10):
         ls = os.listdir(config.download_folder)
+        ls.remove(".gitkeep")
         page_coubs = ls[(int(page) - 1) * int(limit):(int(page) - 1) * int(limit) + int(limit)]
         pagination = {
             "status_back": "disabled" if int(page) < 2 else "",

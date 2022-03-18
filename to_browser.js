@@ -23,23 +23,9 @@ for (i=2;i<=total_pages["total_pages"];i++){
 }
 console.log("script done! please copy object below and save it to file.json! Right click on object -> Copy object")
 console.log(coubjsons)
-saveMetadataToDownloads("coub_metadata.json", JSON.stringify(coubjsons))
+console.save(coubjsons,"coubs.json")
 }
 
-function saveMetadataToDownloads(filename, text) {
-    var pom = document.createElement('a');
-    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    pom.setAttribute('download', filename);
-
-    if (document.createEvent) {
-        var event = document.createEvent('MouseEvents');
-        event.initEvent('click', true, true);
-        pom.dispatchEvent(event);
-    }
-    else {
-        pom.click();
-    }
-}
 
 function ajax_get(url) {
     var xmlhttp = new XMLHttpRequest(); 
@@ -57,4 +43,28 @@ function ajax_get(url) {
     }
 }
 
+(function (console) {
+    console.save = function (data, filename) {
+        if (!data) {
+            console.error('Console.save: No data')
+            return;
+        }
+        if (!filename) filename = 'console.json'
+        if (typeof data === "object") {
+            data = JSON.stringify(data, undefined, 4)
+        }
+        var blob = new Blob([data], { type: 'text/json' }),
+            a = document.createElement('a')
+        var e = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: false
+        });
+
+        a.download = filename
+        a.href = window.URL.createObjectURL(blob)
+        a.dataset.downloadurl = ['text/json', a.download, a.href].join(':')
+        a.dispatchEvent(e)
+    }
+})(console)
 getAllLikesFromCoubCom()

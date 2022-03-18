@@ -6,9 +6,16 @@ import time
 import sys
 import config
 
+debug = False
+
 user_agent = config.user_agent
 download_folder = config.download_folder
 proxies = config.proxies
+
+
+def printdebug(msg):
+    if debug:
+        print(msg)
 
 
 def get_json_by_url_parsed(url):
@@ -19,7 +26,7 @@ def get_json_by_url_parsed(url):
 
 
 def download_coub_from_json(json_coub, download_folder=download_folder):
-    print("[INFO] Starting downloading coub with permalink https://coub.com/view/{0} and name {1}".format(
+    printdebug("[INFO] Starting downloading coub with permalink https://coub.com/view/{0} and name {1}".format(
         json_coub["permalink"], json_coub["title"]))
     folder_save_to = os.path.join(download_folder, "[{0}]".format(json_coub["permalink"]))
     if not os.path.isdir(folder_save_to):
@@ -30,55 +37,55 @@ def download_coub_from_json(json_coub, download_folder=download_folder):
     audio = [s for s in ls if ".mp3" in s]
     first_frame = [s for s in ls if ".jpg" in s]
 
-    print("[INFO] Save coub.json with metadata of this coub")
+    printdebug("[INFO] Save coub.json with metadata of this coub")
     open(os.path.join(folder_save_to, "coub.json"), "wb").write(
         json.dumps(json_coub, ensure_ascii=False).encode("utf-8"))
     file_urls = json_coub["file_versions"]["html5"]
-    print("[INFO] Starting download this coub")
+    printdebug("[INFO] Starting download this coub")
     if ("video" in file_urls) and len(video) == 0:
-        print("[INFO] Starting download video")
+        printdebug("[INFO] Starting download video")
         if "higher" in file_urls["video"]:
             download_file(file_urls["video"]["higher"]["url"],
                           os.path.join(folder_save_to, file_urls["video"]["higher"]["url"].split('/')[-1]))
-            print("[INFO] Video downloaded successful")
+            printdebug("[INFO] Video downloaded successful")
         elif "high" in file_urls["video"]:
             download_file(file_urls["video"]["high"]["url"],
                           os.path.join(folder_save_to, file_urls["video"]["high"]["url"].split('/')[-1]))
-            print("[INFO] Video downloaded successful")
+            printdebug("[INFO] Video downloaded successful")
         elif "med" in file_urls["video"]:
             download_file(file_urls["video"]["med"]["url"],
                           os.path.join(folder_save_to, file_urls["video"]["med"]["url"].split('/')[-1]))
-            print("[INFO] Video downloaded successful")
+            printdebug("[INFO] Video downloaded successful")
         else:
             print("[WARN] No video found! I just save json with properties of this coub")
 
     if ("first_frame_versions" in json_coub) and len(first_frame) == 0:
-        print("[INFO] Starting download first frame of this coub")
+        printdebug("[INFO] Starting download first frame of this coub")
         template = json_coub["first_frame_versions"]["template"]
         if "big" in json_coub["first_frame_versions"]["versions"]:
             download_file(template.replace("%{version}", "big"),
                           os.path.join(folder_save_to, template.replace("%{version}", "big").split('/')[-1]))
-            print("[INFO] First frame downloaded successful")
+            printdebug("[INFO] First frame downloaded successful")
         elif "med" in json_coub["first_frame_versions"]["versions"]:
             download_file(template.replace("%{version}", "med"),
                           os.path.join(folder_save_to, template.replace("%{version}", "med").split('/')[-1]))
-            print("[INFO] First frame downloaded successful")
+            printdebug("[INFO] First frame downloaded successful")
         elif "small" in json_coub["first_frame_versions"]["versions"]:
             download_file(template.replace("%{version}", "small"),
                           os.path.join(folder_save_to, template.replace("%{version}", "small").split('/')[-1]))
-            print("[INFO] First frame downloaded successful")
+            printdebug("[INFO] First frame downloaded successful")
 
     if ("audio" in file_urls) and len(audio) == 0:
-        print("[INFO] Starting download audio")
+        printdebug("[INFO] Starting download audio")
         if "high" in file_urls["audio"]:
             download_file(file_urls["audio"]["high"]["url"],
                           os.path.join(folder_save_to, file_urls["audio"]["high"]["url"].split('/')[-1]))
-            print("[INFO] Audio downloaded successful")
+            printdebug("[INFO] Audio downloaded successful")
 
         elif "med" in file_urls["audio"]:
             download_file(file_urls["audio"]["med"]["url"],
                           os.path.join(folder_save_to, file_urls["audio"]["med"]["url"].split('/')[-1]))
-            print("[INFO] Audio downloaded successful")
+            printdebug("[INFO] Audio downloaded successful")
         else:
             print("[WARN] coub has audio but i cant download it")
     else:
@@ -101,9 +108,19 @@ def download_file(url, path):
 
 def download_coub_from_coub_property_list(path_to_coub_json):
     coublist = json.loads(open(path_to_coub_json, encoding="utf-8").read())
-    print(len(coublist))
+    length = len(coublist)
+    counter = 1
     for coub in coublist:
+        print(
+            "[{0}/{1}] Starting downloading coub with permalink https://coub.com/view/{2} and name {3} "
+                .format(counter,
+                        length,
+                        coub[
+                            "permalink"],
+                        coub[
+                            "title"]))
         download_coub_from_json(coub)
+        counter+=1
         time.sleep(1)
 
 
