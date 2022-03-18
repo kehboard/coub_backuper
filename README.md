@@ -6,7 +6,7 @@
 
 
 Необходимый софт
-* [python3](https://www.python.org/downloads/)
+* [python3.7+](https://www.python.org/downloads/)
 * [pip](https://pythonru.com/baza-znanij/ustanovka-pip-dlja-python-i-bazovye-komandy)
 * браузер
 
