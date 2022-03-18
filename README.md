@@ -1,6 +1,7 @@
 # Coub downloader & Viewer
 
 ![Screenshot](demo_images/1.PNG)
+![Screenshot](demo_images/2.PNG)
 
 
 Необходимый софт
