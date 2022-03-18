@@ -1,4 +1,4 @@
-#Coub downloader & Viewer
+# Coub downloader & Viewer
 
 ![Screenshot](demo_images/1.PNG)
 # Скрипт для скачивания кубов которые вы лайкнули
