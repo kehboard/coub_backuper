@@ -20,7 +20,7 @@
 Если файл не скачался то из консоли то скопируйте объект который находится под надписью 
 "script done! please copy object below and save it to file.json! Right click on object -> Copy object"
 
-##### 3. Запууск процесса скачивания кубов
+##### 3. Запуск процесса скачивания кубов
 
 1. создайте папку downloads в директории со скриптом
 2. Запустите в консоли `python3 coub_backuper.py <путь до json файла>`.
