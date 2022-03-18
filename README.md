@@ -1,7 +1,6 @@
 # Coub downloader & Viewer
 
 ![Screenshot](demo_images/1.PNG)
-# Скрипт для скачивания кубов которые вы лайкнули
 Необходимый софт
 * [python3](https://www.python.org/downloads/)
 * [pip](https://pythonru.com/baza-znanij/ustanovka-pip-dlja-python-i-bazovye-komandy)
