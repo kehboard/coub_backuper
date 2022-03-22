@@ -6,6 +6,7 @@ import json
 from PIL import Image
 from string import Template
 import math
+from optparse import OptionParser
 
 coub_card_template = Template(
     open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "templates/coub_card_template.html"),
@@ -17,12 +18,21 @@ embed_template = Template(
     open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "templates/embed_template.html"),
          encoding="utf-8").read())
 
+usage = "usage: %prog [options] arg"
+parser = OptionParser(usage)
+parser.add_option("-d", "--downloads",  dest="downloads",  help="Folder with coubs", default=None)
+(options, args) = parser.parse_args()
+if options.downloads is not None:
+    config.download_folder = os.path.join(os.path.dirname(os.path.realpath(__file__)), options.downloads)
+
+print("Reading coubs from folder %s" % config.download_folder)
 
 class CoubViewer(object):
     @cherrypy.expose
     def index(self, page=1, limit=10):
         ls = os.listdir(config.download_folder)
-        ls.remove(".gitkeep")
+        if os.path.exists(".gitkeep"):
+            ls.remove(".gitkeep")
         page_coubs = ls[(int(page) - 1) * int(limit):(int(page) - 1) * int(limit) + int(limit)]
         pagination = {
             "status_back": "disabled" if int(page) < 2 else "",
